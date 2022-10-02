@@ -13,18 +13,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val editTextNome1 = findViewById<EditText>(R.id.editTextNome1)
-        val editTextNome2 = findViewById<EditText>(R.id.editTextNome2)
         val botaoIniciar : Button = findViewById(R.id.botaoIniciar)
 
         botaoIniciar.setOnClickListener{
 
-            val nome1 = editTextNome1.text
-            val nome2 = editTextNome2.text
-
             val intentIniciar  = Intent (this, JogoActivity::class.java)
 
-            startActivity(intentIniciar)
+            startActivity(intentIniciar)/**/
         }
         }
 }
