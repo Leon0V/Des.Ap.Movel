@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
             val intentIniciar  = Intent (this, JogoActivity::class.java)
 
-            startActivity(intentIniciar)
+            startActivity(intentIniciar) /*ds*/
         }
         }
 }
