@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import com.google.android.material.textfield.TextInputLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,15 +13,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val layoutNome1 : TextInputLayout = findViewById(R.id.textLayoutNome1)
-        val layoutNome2 : TextInputLayout = findViewById(R.id.textLayoutNome2)
-        val editNome1 : EditText = findViewById(R.id.textLayoutNome1)
-        val editNome2 : EditText = findViewById(R.id.textLayoutNome2)
+        val editTextNome1 = findViewById<EditText>(R.id.editTextNome1)
+        val editTextNome2 = findViewById<EditText>(R.id.editTextNome2)
         val botaoIniciar : Button = findViewById(R.id.botaoIniciar)
 
-        botaoIniciar.setOnClickListener(View.OnClickListener {
-            val intentIniciar  = Intent (MainActivity@this, JogoActivity::class.java)
+        botaoIniciar.setOnClickListener{
+
+            val nome1 = editTextNome1.text
+            val nome2 = editTextNome2.text
+
+            val intentIniciar  = Intent (this, JogoActivity::class.java)
+
             startActivity(intentIniciar)
         }
-        )}
+        }
 }

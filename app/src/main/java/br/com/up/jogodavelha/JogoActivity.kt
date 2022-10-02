@@ -5,21 +5,24 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import br.com.up.jogodavelha.Adapter.JodadorAdapter
 import br.com.up.jogodavelha.databinding.ActivityJogoBinding
 
 class JogoActivity : AppCompatActivity()
 {
     enum class Turn
     {
-        NOUGHT,
-        CROSS
+        BOLINHA,
+        X
     }
 
-    private var firstTurn = Turn.CROSS
-    private var currentTurn = Turn.CROSS
+    private var primeraRodada = Turn.X
+    private var proxima = Turn.X
 
-    private var crossesScore = 0
-    private var noughtsScore = 0
+    private var pontosX = 0
+    private var pontosO = 0
 
     private var boardList = mutableListOf<Button>()
 
@@ -31,6 +34,16 @@ class JogoActivity : AppCompatActivity()
         binding = ActivityJogoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initBoard()
+
+
+        val recyclerJogadores : RecyclerView =
+            findViewById(R.id.jogadoresRecycle)
+
+        recyclerJogadores.layoutManager =
+            GridLayoutManager(this, 2)
+
+
+        recyclerJogadores.adapter = JodadorAdapter(listOf())
     }
 
     private fun initBoard()
@@ -52,14 +65,14 @@ class JogoActivity : AppCompatActivity()
             return
         addToBoard(view)
 
-        if(checkForVictory(NOUGHT))
+        if(checkForVictory(BOLINHA))
         {
-            noughtsScore++
+            pontosO++
             result("Noughts Win!")
         }
-        else if(checkForVictory(CROSS))
+        else if(checkForVictory(X))
         {
-            crossesScore++
+            pontosX++
             result("Crosses Win!")
         }
 
@@ -101,7 +114,7 @@ class JogoActivity : AppCompatActivity()
 
     private fun result(title: String)
     {
-        val message = "\nNoughts $noughtsScore\n\nCrosses $crossesScore"
+        val message = "\nNoughts $pontosO\n\nCrosses $pontosX"
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
@@ -120,12 +133,12 @@ class JogoActivity : AppCompatActivity()
             button.text = ""
         }
 
-        if(firstTurn == Turn.NOUGHT)
-            firstTurn = Turn.CROSS
-        else if(firstTurn == Turn.CROSS)
-            firstTurn = Turn.NOUGHT
+        if(primeraRodada == Turn.BOLINHA)
+            primeraRodada = Turn.X
+        else if(primeraRodada == Turn.X)
+            primeraRodada = Turn.BOLINHA
 
-        currentTurn = firstTurn
+        proxima = primeraRodada
         setTurnLabel()
     }
 
@@ -144,15 +157,15 @@ class JogoActivity : AppCompatActivity()
         if(button.text != "")
             return
 
-        if(currentTurn == Turn.NOUGHT)
+        if(proxima == Turn.BOLINHA)
         {
-            button.text = NOUGHT
-            currentTurn = Turn.CROSS
+            button.text = BOLINHA
+            proxima = Turn.X
         }
-        else if(currentTurn == Turn.CROSS)
+        else if(proxima == Turn.X)
         {
-            button.text = CROSS
-            currentTurn = Turn.NOUGHT
+            button.text = X
+            proxima = Turn.BOLINHA
         }
         setTurnLabel()
     }
@@ -160,18 +173,18 @@ class JogoActivity : AppCompatActivity()
     private fun setTurnLabel()
     {
         var turnText = ""
-        if(currentTurn == Turn.CROSS)
-            turnText = "Turn $CROSS"
-        else if(currentTurn == Turn.NOUGHT)
-            turnText = "Turn $NOUGHT"
+        if(proxima == Turn.X)
+            turnText = "Turn $X"
+        else if(proxima == Turn.BOLINHA)
+            turnText = "Turn $BOLINHA"
 
-       /* binding.turnTV.text = turnText*/
+        binding.rodada.text = turnText
     }
 
     companion object
     {
-        const val NOUGHT = "O"
-        const val CROSS = "X"
+        const val BOLINHA = "O"
+        const val X = "X"
     }
 
 }
